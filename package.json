@@ -1,6 +1,6 @@
 {
   "name": "@mrizki/dynamic-form",
-  "version": "1.0.0-build-2",
+  "version": "1.0.0-build-3",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,8 +20,8 @@
   "author": "Muhamad Rizki <muhrizkie88@gmail.com>",
   "license": "ISC",
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-native": "^0.59.9"
+    "react": ">=16.8.0",
+    "react-native": ">=0.59.0"
   },
   "dependencies": {
     "jsonpath": "^1.0.2",
