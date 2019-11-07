@@ -130,7 +130,7 @@ const UnmemoizedField = (props) => {
     <Animatable.View
       animation="fadeIn"
       useNativeDriver
-      delay={(index / 5) * 500}
+      delay={(index / 5) * 300}
       onLayout={(e) => {
         itemHeights[key] = e.nativeEvent.layout.height;
       }}
