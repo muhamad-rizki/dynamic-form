@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import jsonpath from 'jsonpath';
 import useForm from 'react-hook-form';
+import * as Animatable from 'react-native-animatable';
 
 import DynamicFormContext from './contexts/DynamicFormContext';
 
@@ -63,7 +64,7 @@ let LAST_PROPS_SCHEMA = {};
 
 const itemHeights = {};
 
-const FieldRenderer = (props) => {
+const UnmemoizedField = (props) => {
   const {
     item: Field,
     index,
@@ -83,7 +84,7 @@ const FieldRenderer = (props) => {
     setParentSchema,
     setParentValue,
     handlers,
-    formInitialValues,
+    getAllValues,
   } = props;
   const key = fieldKeys[index].replace(/(\.?)type$|^\$\.|properties./g, '');
   if (key === '') {
@@ -116,7 +117,6 @@ const FieldRenderer = (props) => {
               : {}
           ),
         });
-      if (formInitialValues && formInitialValues[key]) setValue(key, formInitialValues[key], true);
       return () => {
         unregister(key);
       };
@@ -127,7 +127,10 @@ const FieldRenderer = (props) => {
     return <View />;
   }
   return (
-    <View
+    <Animatable.View
+      animation="fadeIn"
+      useNativeDriver
+      delay={(index / 5) * 500}
       onLayout={(e) => {
         itemHeights[key] = e.nativeEvent.layout.height;
       }}
@@ -156,14 +159,15 @@ const FieldRenderer = (props) => {
           getParentSchema: parentSchema,
           setParentSchema,
           setCrossValue: setParentValue,
+          getAllValues,
         }}
         {...prop}
       />
-    </View>
+    </Animatable.View>
   );
 };
 
-// const FieldRenderer = React.memo(Field);
+const FieldRenderer = React.memo(UnmemoizedField);
 
 export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
   const {
@@ -180,6 +184,7 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
     parentSchema,
     setParentSchema,
     setParentValue,
+    getAllValues,
   } = props;
 
   // global dynamic form context
@@ -304,8 +309,6 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
     // }
   }, [formState.isSubmitted]);
 
-  console.log('asdaasd', getValues(true))
-
   const keyExtractor = (item, index) => index.toString();
 
   const btnSubmitPressed = () => {
@@ -349,6 +352,7 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
             unregister={unregister}
             formats={formats}
             storageKey={storageKey}
+            getAllValues={getAllValues}
             getValues={getValues}
             setValue={setValue}
             errors={errors}
@@ -427,7 +431,7 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
     initialValue,
   } = props;
 
-  const [schema, setSchema] = useState(JSON.parse(JSON.stringify(WizardSchema)))
+  const [schema, setSchema] = useState(JSON.parse(JSON.stringify(WizardSchema)));
 
   useEffect(() => {
     LAST_WIZARD_PROPS_SCHEMA = schema;
@@ -436,9 +440,7 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
   useEffect(() => {
     LAST_WIZARD_PROPS_SCHEMA = schema;
     setSchema(JSON.parse(JSON.stringify(WizardSchema)));
-  }, [isEqual(LAST_WIZARD_PROPS_SCHEMA, WizardSchema)])
-
-  const context = useContext(DynamicFormContext);
+  }, [isEqual(LAST_WIZARD_PROPS_SCHEMA, WizardSchema)]);
 
   const schemas = Object.keys(schema.properties).filter((k) => !WizardSchema.properties[k].config
     || !schema.properties[k].config.isHidden);
@@ -463,15 +465,17 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
     },
   };
 
-  return (
+  const forms = useMemo(() => schemas.map((schemaKey) => (
     <SingleDynamicForm
+      key={schemaKey}
       handlers={handlers}
       parentSchema={() => JSON.parse(JSON.stringify(schema))}
-      setParentSchema={s => setSchema(s)}
+      setParentSchema={(s) => setSchema(s)}
       setParentValue={(v) => setValues(v)}
-      schema={JSON.parse(JSON.stringify(schema.properties[schemas[step]]))}
-      storageKey={schemas[step]}
-      initialValue={initialValue && initialValue[schemas[step]]}
+      getAllValues={() => JSON.parse(JSON.stringify(values))}
+      schema={JSON.parse(JSON.stringify(schema.properties[schemaKey]))}
+      storageKey={schemaKey}
+      initialValue={initialValue && { ...initialValue[schemaKey], ...values[schemaKey] }}
       renderFooter={renderFooter
         ? (xProps) => renderFooter({
           ...xProps,
@@ -501,7 +505,7 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
         })
         : undefined}
       onSubmit={(val) => {
-        values[schemas[step]] = val;
+        values[schemaKey] = val;
         if (isLastStep) {
           onSubmit(values);
         } else {
@@ -510,5 +514,7 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
         }
       }}
     />
-  );
+  )));
+
+  return forms[step];
 };

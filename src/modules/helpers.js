@@ -1,3 +1,5 @@
+import DeepSetValue from 'set-value';
+
 export const AnotherHelper = '';
 
 export const isEmpty = (obj) => {
@@ -12,3 +14,5 @@ export const isEmpty = (obj) => {
   }
   return obj === undefined || obj === null;
 };
+
+export DeepSetValue;
