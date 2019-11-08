@@ -1,24 +1,24 @@
 'use-strict';
 
-import isEqual from 'react-fast-compare';
+import jsonpath from 'jsonpath';
 import React, {
   useContext,
-  useState,
   useEffect,
-  useRef,
   useMemo,
+  useRef,
+  useState,
 } from 'react';
+import isEqual from 'react-fast-compare';
+import useForm from 'react-hook-form';
 import {
-  View,
-  TextInput,
   FlatList,
   ScrollView,
+  TextInput,
+  View,
 } from 'react-native';
-import jsonpath from 'jsonpath';
-import useForm from 'react-hook-form';
 import * as Animatable from 'react-native-animatable';
-
 import DynamicFormContext from './contexts/DynamicFormContext';
+
 
 interface HeaderFooterProps {
   values: Object,
@@ -130,7 +130,7 @@ const UnmemoizedField = (props) => {
     <Animatable.View
       animation="fadeIn"
       useNativeDriver
-      delay={(index / 5) * 300}
+      delay={(index / 5) * 100}
       onLayout={(e) => {
         itemHeights[key] = e.nativeEvent.layout.height;
       }}
@@ -465,7 +465,16 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
     },
   };
 
-  const forms = useMemo(() => schemas.map((schemaKey) => (
+  // const back = useCallback(() => { }, []);
+
+  // useEffect(() => {
+  //   BackHandler.addEventListener('hardwareBackPress', back);
+  //   return () => {
+  //     BackHandler.removeEventListener('hardwareBackPress', back);
+  //   }
+  // }, [step]);
+
+  const forms = schemas.map((schemaKey) => (
     <SingleDynamicForm
       key={schemaKey}
       handlers={handlers}
@@ -514,7 +523,7 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
         }
       }}
     />
-  )));
+  ));
 
   return forms[step];
 };
