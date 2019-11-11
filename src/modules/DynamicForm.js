@@ -16,7 +16,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import DynamicFormContext from './contexts/DynamicFormContext';
 
 
@@ -127,7 +126,7 @@ const UnmemoizedField = (props) => {
     return <View />;
   }
   return (
-    <Animatable.View
+    <View
       animation="fadeIn"
       useNativeDriver
       delay={(index / 5) * 100}
@@ -163,7 +162,7 @@ const UnmemoizedField = (props) => {
         }}
         {...prop}
       />
-    </Animatable.View>
+    </View>
   );
 };
 
@@ -301,7 +300,7 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
   });
 
   useEffect(() => {
-    ScrollTo(0);
+    if (formState.dirty) ScrollTo(0);
     // if (formInitialValues) {
     //   Object.keys(formInitialValues).forEach((key) => {
     //     setValue(key, formInitialValues[key]);
@@ -447,7 +446,7 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
 
   const [step, setStep] = useState(initialStep || 0);
 
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({ ...initialValue });
 
   const isLastStep = step === (schemas.length - 1);
 
