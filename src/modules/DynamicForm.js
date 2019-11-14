@@ -403,6 +403,7 @@ interface WizardDynamicFormProps {
   storageKey: String,
   handlers: Array<Function>,
   schema: Object,
+  navigation: Object,
   initialValue: Object,
   initialStep: Number,
   onSubmit: (data: Object) => void,
@@ -417,6 +418,8 @@ interface WizardDynamicFormProps {
 
 let LAST_WIZARD_PROPS_SCHEMA = {};
 
+let LAST_NAVIGATION_STATE = {};
+
 export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
   const {
     schema: WizardSchema,
@@ -428,13 +431,30 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
     handlers,
     initialStep,
     initialValue,
+    navigation,
   } = props;
 
   const [schema, setSchema] = useState(JSON.parse(JSON.stringify(WizardSchema)));
 
+  const [step, setStep] = useState(initialStep || 0);
+
+  const [values, setValues] = useState({ ...initialValue });
+
   useEffect(() => {
+    LAST_NAVIGATION_STATE = navigation;
     LAST_WIZARD_PROPS_SCHEMA = schema;
+    return () => {
+      setSchema(JSON.parse(JSON.stringify(WizardSchema)));
+      setStep(0);
+      setValues({ ...initialValue });
+    };
   }, []);
+
+  useEffect(() => {
+    setSchema(JSON.parse(JSON.stringify(WizardSchema)));
+    setStep(0);
+    setValues({ ...initialValue });
+  }, [isEqual(LAST_NAVIGATION_STATE, navigation)]);
 
   useEffect(() => {
     LAST_WIZARD_PROPS_SCHEMA = schema;
@@ -444,9 +464,6 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
   const schemas = Object.keys(schema.properties).filter((k) => !WizardSchema.properties[k].config
     || !schema.properties[k].config.isHidden);
 
-  const [step, setStep] = useState(initialStep || 0);
-
-  const [values, setValues] = useState({ ...initialValue });
 
   const isLastStep = step === (schemas.length - 1);
 
