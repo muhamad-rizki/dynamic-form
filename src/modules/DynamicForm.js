@@ -445,14 +445,14 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
     LAST_WIZARD_PROPS_SCHEMA = schema;
     return () => {
       setSchema(JSON.parse(JSON.stringify(WizardSchema)));
-      setStep(0);
+      setStep(initialStep || 0);
       setValues({ ...initialValue });
     };
   }, []);
 
   useEffect(() => {
     setSchema(JSON.parse(JSON.stringify(WizardSchema)));
-    setStep(0);
+    setStep(initialStep || 0);
     setValues({ ...initialValue });
   }, [isEqual(LAST_NAVIGATION_STATE, navigation)]);
 
