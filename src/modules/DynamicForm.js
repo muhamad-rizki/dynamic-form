@@ -420,6 +420,8 @@ let LAST_WIZARD_PROPS_SCHEMA = {};
 
 let LAST_NAVIGATION_STATE = {};
 
+let singleFormAction = {};
+
 export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
   const {
     schema: WizardSchema,
@@ -432,6 +434,8 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
     initialStep,
     initialValue,
     navigation,
+    componentDidMount,
+    componentWillUnmount,
   } = props;
 
   const [schema, setSchema] = useState(JSON.parse(JSON.stringify(WizardSchema)));
@@ -441,9 +445,32 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
   const [values, setValues] = useState({ ...initialValue });
 
   useEffect(() => {
+    const callbacks = {
+      resetForm: (force = false) => {
+        setSchema(JSON.parse(JSON.stringify(WizardSchema)));
+        if (force) {
+          singleFormAction.reset();
+          setStep(0);
+          const v = values;
+          Object.keys(values).forEach((k) => {
+            v[k] = {};
+          });
+          setValues(v);
+        } else {
+          setStep(initialStep || 0);
+          setValues({ ...initialValue });
+        }
+      }
+    };
     LAST_NAVIGATION_STATE = navigation;
     LAST_WIZARD_PROPS_SCHEMA = schema;
+    if (componentDidMount) {
+      componentDidMount(callbacks);
+    }
     return () => {
+      if (componentWillUnmount) {
+        componentWillUnmount(callbacks);
+      }
       setSchema(JSON.parse(JSON.stringify(WizardSchema)));
       setStep(initialStep || 0);
       setValues({ ...initialValue });
@@ -502,32 +529,44 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
       storageKey={schemaKey}
       initialValue={initialValue && { ...initialValue[schemaKey], ...values[schemaKey] }}
       renderFooter={renderFooter
-        ? (xProps) => renderFooter({
-          ...xProps,
-          ...WizardProps,
-          actions: { ...xProps.actions, ...WizardProps.actions },
-        })
+        ? (xProps) => {
+          singleFormAction = xProps.actions;
+          return renderFooter({
+            ...xProps,
+            ...WizardProps,
+            actions: { ...xProps.actions, ...WizardProps.actions },
+          });
+        }
         : undefined}
       renderHeader={renderHeader
-        ? (xProps) => renderHeader({
-          ...xProps,
-          ...WizardProps,
-          actions: { ...xProps.actions, ...WizardProps.actions },
-        })
+        ? (xProps) => {
+          singleFormAction = xProps.actions;
+          return renderHeader({
+            ...xProps,
+            ...WizardProps,
+            actions: { ...xProps.actions, ...WizardProps.actions },
+          });
+        }
         : undefined}
       renderStickyFooter={renderStickyFooter
-        ? (xProps) => renderStickyFooter({
-          ...xProps,
-          ...WizardProps,
-          actions: { ...xProps.actions, ...WizardProps.actions },
-        })
+        ? (xProps) => {
+          singleFormAction = xProps.actions;
+          return renderStickyFooter({
+            ...xProps,
+            ...WizardProps,
+            actions: { ...xProps.actions, ...WizardProps.actions },
+          });
+        }
         : undefined}
       renderStickyHeader={renderStickyHeader
-        ? (xProps) => renderStickyHeader({
-          ...xProps,
-          ...WizardProps,
-          actions: { ...xProps.actions, ...WizardProps.actions },
-        })
+        ? (xProps) => {
+          singleFormAction = xProps.actions;
+          return renderStickyHeader({
+            ...xProps,
+            ...WizardProps,
+            actions: { ...xProps.actions, ...WizardProps.actions },
+          });
+        }
         : undefined}
       onSubmit={(val) => {
         values[schemaKey] = val;

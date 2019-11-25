@@ -1,6 +1,6 @@
 {
   "name": "@mrizki/dynamic-form",
-  "version": "1.0.0-build-11",
+  "version": "1.0.0-build-12",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
