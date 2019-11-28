@@ -137,9 +137,11 @@ const UnmemoizedField = (props) => {
       style={{ flexGrow: 1 }}
     >
       <Field
+        {...prop}
         handlers={jsonpath.value(handlers, key)}
         config={{
           accessibilityLabel: `${storageKey.toLowerCase()}_${key.toLowerCase().replace('.', '_')}`,
+          ...prop.config
         }}
         value={getValues()[key]}
         onChange={(val) => {
@@ -160,7 +162,6 @@ const UnmemoizedField = (props) => {
           setCrossValue: setParentValue,
           getAllValues,
         }}
-        {...prop}
       />
     </View>
   );
