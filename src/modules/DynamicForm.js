@@ -83,6 +83,7 @@ const UnmemoizedField = (props) => {
     setParentSchema,
     setParentValue,
     handlers,
+    setError,
     getAllValues,
   } = props;
   const key = fieldKeys[index].replace(/(\.?)type$|^\$\.|properties./g, '');
@@ -161,6 +162,17 @@ const UnmemoizedField = (props) => {
           setParentSchema,
           setCrossValue: setParentValue,
           getAllValues,
+          setFieldError: (msg) => setError(key, 'CustomError', msg),
+        }}
+        _dynamicForm={{
+          setValue,
+          getSingleSchema: getSchema,
+          setSingleSchemaAt: setSchema,
+          getParentSchema: parentSchema,
+          setParentSchema,
+          setCrossValue: setParentValue,
+          getAllValues,
+          setFieldError: (msg) => setError(key, 'CustomError', msg),
         }}
       />
     </View>
@@ -211,6 +223,7 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
     formState,
     handleSubmit,
     reset,
+    setError,
   } = useForm({
     mode: 'onChange',
     defaultValues: formInitialValues,
@@ -356,6 +369,7 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
             getValues={getValues}
             setValue={setValue}
             errors={errors}
+            setError={setError}
             messages={messages}
             getSchema={() => JSON.parse(JSON.stringify(schema))}
             setSchema={setSchema}
