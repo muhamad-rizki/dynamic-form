@@ -47,6 +47,7 @@ interface SingleDynamicFormProps {
   handlers: Array<Function>,
   schema: Object,
   initialValue: Object,
+  resetOnSubmit: Boolean,
   onSubmit: (data: Object) => void,
   scrollViewRef: () => ScrollView | FlatList,
   renderFooter: (props: HeaderFooterProps) => React.Component,
@@ -197,6 +198,7 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
     setParentSchema,
     setParentValue,
     getAllValues,
+    resetOnSubmit,
   } = props;
 
   // global dynamic form context
@@ -304,17 +306,19 @@ export const SingleDynamicForm = (props: SingleDynamicFormProps) => {
   }, [errors]);
 
   const onSubmitForm = handleSubmit(() => {
-    onSubmit(getValues(true));
-    fields.forEach((field, index) => {
-      const key = fieldKeys[index].replace(/(\.?)type$|^\$\.|properties./g, '');
-      unregister(key);
-      // console.log('asdasd unregistered', key)
-    });
-    reset({});
+    onSubmit(getValues(true), reset);
+    if (resetOnSubmit) {
+      fields.forEach((field, index) => {
+        const key = fieldKeys[index].replace(/(\.?)type$|^\$\.|properties./g, '');
+        unregister(key);
+        // console.log('asdasd unregistered', key)
+      });
+      reset({});
+    }
   });
 
   useEffect(() => {
-    if (formState.dirty) ScrollTo(0);
+    if (resetOnSubmit && formState.dirty) ScrollTo(0);
     // if (formInitialValues) {
     //   Object.keys(formInitialValues).forEach((key) => {
     //     setValue(key, formInitialValues[key]);
@@ -542,6 +546,7 @@ export const WizardDynamicForm = (props: WizardDynamicFormProps) => {
       getAllValues={() => JSON.parse(JSON.stringify(values))}
       schema={JSON.parse(JSON.stringify(schema.properties[schemaKey]))}
       storageKey={schemaKey}
+      resetOnSubmit
       initialValue={initialValue && { ...initialValue[schemaKey], ...values[schemaKey] }}
       renderFooter={renderFooter
         ? (xProps) => {

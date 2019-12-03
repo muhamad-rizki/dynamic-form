@@ -1,6 +1,6 @@
 {
   "name": "@mrizki/dynamic-form",
-  "version": "1.0.0-build-14",
+  "version": "1.0.0-build-16",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -47,5 +47,8 @@
   "jest": {
     "preset": "react-native"
   },
-  "description": "React Native Dynamic Form JSON Schema"
+  "description": "React Native Dynamic Form JSON Schema",
+  "publishConfig": {
+    "registry": "https://devops.quadrant-si.id/nexus/repository/npm-hosted"
+  }
 }
