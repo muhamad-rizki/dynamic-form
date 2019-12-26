@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react';
 import isEqual from 'react-fast-compare';
-import useForm from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   FlatList,
   ScrollView,

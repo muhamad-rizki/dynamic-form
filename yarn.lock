@@ -2919,7 +2919,7 @@ json5@^2.1.0:
   dependencies:
     minimist "^1.2.0"
 
-jsonpath@^1.0.2:
+jsonpath@1.0.2:
   version "1.0.2"
   resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/jsonpath/-/jsonpath-1.0.2.tgz#e6aae681d03e9a77b4651d5d96eac5fc63b1fd13"
   integrity sha512-rmzlgFZiQPc6q4HDyK8s9Qb4oxBnI5sF61y/Co5PV0lc3q2bIuRsNdueVbhoSHdKM4fxeimphOAtfz47yjCfeA==
@@ -3770,24 +3770,24 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-fast-compare@^2.0.4:
+react-fast-compare@2.0.4:
   version "2.0.4"
   resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-hook-form@^3.26.4:
-  version "3.26.4"
-  resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/react-hook-form/-/react-hook-form-3.26.4.tgz#535c2b8862a4aa899fea454b01480e7e0c3e377f"
-  integrity sha512-n+BkcojpwO5swWOjdN+UoOPStN5nZnWqyZ8xLYL/Pq1/c3Ng4HsNjooVATg9O3Eff5RgBg+m9tYjZcKZqHMMGg==
+react-hook-form@^4.0.1:
+  version "4.0.1"
+  resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/react-hook-form/-/react-hook-form-4.0.1.tgz#f376d76bec51109ad802f2820333c4ad2c76db49"
+  integrity sha512-nH8tr6K+EExriEgxOdgonULFFzmZLeFWmcjZlvhaRa5RESqaQ/ll3/6GzfqmukSFA0ZIqN+F1E6SQ3Ff4p2blg==
 
 react-is@^16.8.1, react-is@^16.8.3, react-is@^16.8.4:
   version "16.11.0"
   resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/react-is/-/react-is-16.11.0.tgz#b85dfecd48ad1ce469ff558a882ca8e8313928fa"
   integrity sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
 
-react-native-animatable@^1.3.3:
+react-native-animatable@1.3.3:
   version "1.3.3"
-  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
+  resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
   integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
   dependencies:
     prop-types "^15.7.2"
@@ -4134,6 +4134,13 @@ set-blocking@^2.0.0, set-blocking@~2.0.0:
   resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
   integrity sha1-BF+XgtARrppoA93TgrJDkrPYkPc=
 
+set-value@3.0.1:
+  version "3.0.1"
+  resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/set-value/-/set-value-3.0.1.tgz#52c82af7653ba69eb1db92e81f5cdb32739b9e95"
+  integrity sha512-w6n3GUPYAWQj4ZyHWzD7K2FnFXHx9OTwJYbWg+6nXjG8sCLfs9DGv+KlqglKIIJx+ks7MlFuwFW2RBPb+8V+xg==
+  dependencies:
+    is-plain-object "^2.0.4"
+
 set-value@^2.0.0, set-value@^2.0.1:
   version "2.0.1"
   resolved "https://devops.quadrant-si.id/nexus/repository/npm-group/set-value/-/set-value-2.0.1.tgz#a18d40530e6f07de4228c7defe4227af8cad005b"
@@ -4143,13 +4150,6 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-extendable "^0.1.1"
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
-
-set-value@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/set-value/-/set-value-3.0.1.tgz#52c82af7653ba69eb1db92e81f5cdb32739b9e95"
-  integrity sha512-w6n3GUPYAWQj4ZyHWzD7K2FnFXHx9OTwJYbWg+6nXjG8sCLfs9DGv+KlqglKIIJx+ks7MlFuwFW2RBPb+8V+xg==
-  dependencies:
-    is-plain-object "^2.0.4"
 
 shebang-command@^1.2.0:
   version "1.2.0"
